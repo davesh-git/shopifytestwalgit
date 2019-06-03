@@ -17,6 +17,7 @@ const shopFilePath = path.join(__dirname, '/shopList.json')
 app.set('view engine', 'hbs')
 app.set('views', viewPath)
 
+//comment to check commit
 debugger
 //Default path of the URL
 //STEP 1
