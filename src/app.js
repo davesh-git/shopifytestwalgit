@@ -145,7 +145,7 @@ app.get('/welcome', (req, res) => {
             let shopFoundFlag = true
 
             //Validate Nonce code
-            const nonce2 = queryURLParts.get('nonce')
+            const nonce2 = req.query.get('nonce')
             if (nonce2 === 1234353590590904) {
                 console.log(chalk.green('Nonce validated!!!'))
             }
