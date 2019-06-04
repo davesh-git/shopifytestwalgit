@@ -260,6 +260,9 @@ app.get('/homepage', (req, res) => {
 
 })
 
+app.get('/testpage',(req,res)=>{
+    res.send('Test page is working, Thanks')
+})
 
 app.listen(3000, () => {
     console.log("Server is runnxing on port 3000")
