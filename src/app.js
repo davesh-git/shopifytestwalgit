@@ -264,8 +264,9 @@ app.get('/testpage',(req,res)=>{
     res.send('Test page is working, Thanks')
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000),()=>{
     console.log("Server is runnxing on port 3000")
-}) 
+}
+
 
 //chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=localhost:9229/b4111321-4a42-47d0-92b9-525c19c78d5d
