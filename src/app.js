@@ -164,7 +164,7 @@ app.get('/welcome', (req, res) => {
             }
 
             //If shop was not found, and this was the first time /welcome call
-            if (shopnotfound === true) {
+            if (shopFoundFlag === true) {
                 const shopJSON = [{
                     Shop_Name: 'test-wal-mp'
                 }]
