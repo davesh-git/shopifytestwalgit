@@ -264,6 +264,16 @@ app.get('/testpage',(req,res)=>{
     res.send('Test page is working, Thanks')
 })
 
+app.get('/syncproducts',(req,res)=>{
+    res.send('Sync page')
+})
+
+
+app.get('/manageproducts',(req,res)=>{
+    res.send('Manage page')
+})
+
+
 app.listen(process.env.PORT || 3000),()=>{
     console.log("Server is runnxing on port 3000")
 }
