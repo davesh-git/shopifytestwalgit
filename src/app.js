@@ -77,7 +77,7 @@ app.get('', (req, res) => {
             //If some data is found, then shop may or may not exist
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
-                //IF SHOP EXISTS at our end
+                //IF SHOP EXISTS at our end - THEN SHOULD NOT BE ENTERTAINED AS CAN BE SECURITY RISK
                 if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
                     //This is the redirect URL after installation. In the post calls, that is after app installations, this '/' will be called but we might not have to pass all these parameters (check SLDB and change the Params)
                     //Also, when User comes to '/welcome' it should be dynamic content
@@ -119,7 +119,7 @@ app.get('', (req, res) => {
     })
 })
 
-//This is  called after the user has confirmed installation and gets redirected to the welcome screen. 
+//This is  called after the user has confirmed installation and gets redirected to the welcome screen. At this stage we will fetch the tokens and persist in our DB i.e Appvault
 app.get('/welcome', (req, res) => {
 
     console.log('Shopify second call from app just after installation' + req.url + ",query:" + req.query)
@@ -265,12 +265,95 @@ app.get('/testpage',(req,res)=>{
 })
 
 app.get('/syncproducts',(req,res)=>{
-    res.send('Sync page')
+
+    //STEP 4 VALIDATE
+    // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
+    // The hmac is valid. The HMAC is signed by Shopify as explained below, in Verification.
+    // The hostname parameter is a valid hostname, ends with myshopify.com, and does not contain characters other than letters (a-z), numbers (0-9), dots, and hyphens.
+    const urlParams = new URLSearchParams(req.query)
+
+    //Check if request came from Shopify - validate HMAC
+    hmacvalid(urlParams, (resultFlag) => {
+        //Request validated from Shopify
+        if (resultFlag == 'true') {
+            let shopsParseObj = ''
+            //Get data to check further if shop exists
+            try {
+                //Get data to check further if shop exists
+                const shopsBuffer = fs.readFileSync(shopFilePath)
+                const shopsJSON = shopsBuffer.toString()
+                shopsParseObj = JSON.parse(shopsJSON)
+            }
+            catch (e) {
+                console.log(chalk.red('File error'))
+            }
+            let consoleStr = ''
+            let foundFlag = 'false'
+
+            //Shop should definitely exist at this stage
+            if (otherUtils.emptyCheck(shopsParseObj) === false) {
+
+                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
+
+                    res.send('Sync page')
+                }
+
+                else {
+                    return res.send('your Shop not found, please try again')
+                }
+            }
+        }
+        else {
+            //DO NOTHING or SHOw ERROR WEBPAGE
+        }
+
+    })
 })
 
 
 app.get('/manageproducts',(req,res)=>{
-    res.send('Manage page')
+ //STEP 4 VALIDATE
+    // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
+    // The hmac is valid. The HMAC is signed by Shopify as explained below, in Verification.
+    // The hostname parameter is a valid hostname, ends with myshopify.com, and does not contain characters other than letters (a-z), numbers (0-9), dots, and hyphens.
+    const urlParams = new URLSearchParams(req.query)
+
+    //Check if request came from Shopify - validate HMAC
+    hmacvalid(urlParams, (resultFlag) => {
+        //Request validated from Shopify
+        if (resultFlag == 'true') {
+            let shopsParseObj = ''
+            //Get data to check further if shop exists
+            try {
+                //Get data to check further if shop exists
+                const shopsBuffer = fs.readFileSync(shopFilePath)
+                const shopsJSON = shopsBuffer.toString()
+                shopsParseObj = JSON.parse(shopsJSON)
+            }
+            catch (e) {
+                console.log(chalk.red('File error'))
+            }
+            let consoleStr = ''
+            let foundFlag = 'false'
+
+            //Shop should definitely exist at this stage
+            if (otherUtils.emptyCheck(shopsParseObj) === false) {
+
+                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
+
+                    res.send('Manage Product page')
+                }
+
+                else {
+                    return res.send('your Shop not found, please try again')
+                }
+            }
+        }
+        else {
+            //DO NOTHING or SHOw ERROR WEBPAGE
+        }
+
+    })
 })
 
 
