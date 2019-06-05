@@ -146,7 +146,8 @@ app.get('/welcome', (req, res) => {
 
             //Validate Nonce code
             const nonce2 = req.query.state
-            if (nonce2 === 1234353590590904) {
+            console.log(chalk.red(nonce2))
+            if (nonce2 == 1234353590590904) {
                 console.log(chalk.green('Nonce validated!!!'))
             }
             else {

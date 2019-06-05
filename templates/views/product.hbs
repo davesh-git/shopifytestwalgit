@@ -7,9 +7,20 @@
 <body>
 
     <button onclick='getProducts()'>Get Products</button>
+    <div id='prod'>
+    </div>
     <script>
         function getProducts() {
             console.log('Button clicked')
+
+            fetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json')
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (myJson) {
+                    console.log(JSON.stringify(myJson))
+                    document.getElementById('prod').innerText = JSON.stringify(myJson)
+                });
         }
 
     </script>
