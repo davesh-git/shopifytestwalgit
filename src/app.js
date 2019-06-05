@@ -182,7 +182,7 @@ app.get('/welcome', (req, res) => {
 
                 //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
                 //(shopName, client_id, client_secret, authcode, callback) 
-                let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_API_SECRET_KEY, req.query.code)
+                let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                 tokenCall.then((response) => {
                     console.log(chalk.yellow(response.token + ',' + response.scope))
                 }, (error) => {
@@ -260,7 +260,7 @@ app.get('/homepage', (req, res) => {
                     //-----IF TOKEN DOES NOT EXIST ALREADY---s)
                     //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
                     //(shopName, client_id, client_secret, authcode, callback) 
-                    let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_API_SECRET_KEY, req.query.code)
+                    let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                     tokenCall.then((response) => {
                         console.log(response.token + ',' + response.scope)
                     }, (error) => {
