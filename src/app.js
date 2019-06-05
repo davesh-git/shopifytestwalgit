@@ -353,18 +353,7 @@ app.get('/manageproducts', (req, res) => {
         if (resultFlag == 'true') {
             let shopsParseObj = ''
             //Get data to check further if shop exists
-            // try {
-            //     //Get data to check further if shop exists
-            //     const shopsBuffer = fs.readFileSync(shopFilePath)
-            //     const shopsJSON = shopsBuffer.toString()
-            //    // shopsParseObj = JSON.parse(shopsJSON)
-            //    shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
-
-            // }
-            // catch (e) {
-            //     console.log(chalk.red('File error'))
-            // }
-
+        
             try {
                 const shopsBuffer = fs.readFileSync(shopFilePath)
                 console.log("Shop Buffer :"+shopsBuffer)
@@ -377,8 +366,6 @@ app.get('/manageproducts', (req, res) => {
                 console.log(chalk.red('File error'+e))
             }
 
-
-            
             let consoleStr = ''
             let foundFlag = 'false'
 
