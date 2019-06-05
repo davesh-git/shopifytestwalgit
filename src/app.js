@@ -247,6 +247,9 @@ app.get('/homepage', (req, res) => {
             catch (e) {
                 console.log(chalk.red('File error'))
             }
+
+            console.log(chalk.green("Shop details read:"+shopsParseObj))
+            
             let consoleStr = ''
             let foundFlag = 'false'
 
