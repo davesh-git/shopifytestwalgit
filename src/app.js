@@ -242,14 +242,16 @@ app.get('/homepage', (req, res) => {
                 //Get data to check further if shop exists
                 const shopsBuffer = fs.readFileSync(shopFilePath)
                 const shopsJSON = shopsBuffer.toString()
-                shopsParseObj = JSON.parse(shopsJSON)
+                //shopsParseObj = JSON.parse(shopsJSON)
+
+                shopsParseObj = {"Shop_Name":"test-wal-mp"}
+
+
             }
             catch (e) {
                 console.log(chalk.red('File error'))
             }
 
-            console.log(chalk.green("Shop details read:"+shopsParseObj))
-            
             let consoleStr = ''
             let foundFlag = 'false'
 
@@ -307,7 +309,11 @@ app.get('/syncproducts', (req, res) => {
                 //Get data to check further if shop exists
                 const shopsBuffer = fs.readFileSync(shopFilePath)
                 const shopsJSON = shopsBuffer.toString()
-                shopsParseObj = JSON.parse(shopsJSON)
+              //  shopsParseObj = JSON.parse(shopsJSON)
+
+                shopsParseObj = {"Shop_Name":"test-wal-mp"}
+
+
             }
             catch (e) {
                 console.log(chalk.red('File error'))
@@ -353,7 +359,9 @@ app.get('/manageproducts', (req, res) => {
                 //Get data to check further if shop exists
                 const shopsBuffer = fs.readFileSync(shopFilePath)
                 const shopsJSON = shopsBuffer.toString()
-                shopsParseObj = JSON.parse(shopsJSON)
+               // shopsParseObj = JSON.parse(shopsJSON)
+               shopsParseObj = {"Shop_Name":"test-wal-mp"}
+               
             }
             catch (e) {
                 console.log(chalk.red('File error'))
