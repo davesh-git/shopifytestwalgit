@@ -238,17 +238,17 @@ app.get('/homepage', (req, res) => {
         if (resultFlag == 'true') {
             let shopsParseObj = ''
             //Get data to check further if shop exists
+          
             try {
-                //Get data to check further if shop exists
                 const shopsBuffer = fs.readFileSync(shopFilePath)
+                console.log("Shop Buffer :"+shopsBuffer)
                 const shopsJSON = shopsBuffer.toString()
-                //shopsParseObj = JSON.parse(shopsJSON)
-                shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
-
-
+                console.log("Shop JSON :"+shopsJSON)
+                shopsParseObj = JSON.parse(shopsJSON)
+                console.log("Shop Obj:"+shopsParseObj[0])
             }
             catch (e) {
-                console.log(chalk.red('File error'))
+                console.log(chalk.red('File error'+e))
             }
 
             let consoleStr = ''
@@ -305,18 +305,17 @@ app.get('/syncproducts', (req, res) => {
             let shopsParseObj = ''
             //Get data to check further if shop exists
             try {
-                //Get data to check further if shop exists
                 const shopsBuffer = fs.readFileSync(shopFilePath)
+                console.log("Shop Buffer :"+shopsBuffer)
                 const shopsJSON = shopsBuffer.toString()
-              //  shopsParseObj = JSON.parse(shopsJSON)
-
-              shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
-
-
+                console.log("Shop JSON :"+shopsJSON)
+                shopsParseObj = JSON.parse(shopsJSON)
+                console.log("Shop Obj:"+shopsParseObj[0])
             }
             catch (e) {
-                console.log(chalk.red('File error'))
+                console.log(chalk.red('File error'+e))
             }
+
             let consoleStr = ''
             let foundFlag = 'false'
 
@@ -354,17 +353,32 @@ app.get('/manageproducts', (req, res) => {
         if (resultFlag == 'true') {
             let shopsParseObj = ''
             //Get data to check further if shop exists
-            try {
-                //Get data to check further if shop exists
-                const shopsBuffer = fs.readFileSync(shopFilePath)
-                const shopsJSON = shopsBuffer.toString()
-               // shopsParseObj = JSON.parse(shopsJSON)
-               shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
+            // try {
+            //     //Get data to check further if shop exists
+            //     const shopsBuffer = fs.readFileSync(shopFilePath)
+            //     const shopsJSON = shopsBuffer.toString()
+            //    // shopsParseObj = JSON.parse(shopsJSON)
+            //    shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
 
+            // }
+            // catch (e) {
+            //     console.log(chalk.red('File error'))
+            // }
+
+            try {
+                const shopsBuffer = fs.readFileSync(shopFilePath)
+                console.log("Shop Buffer :"+shopsBuffer)
+                const shopsJSON = shopsBuffer.toString()
+                console.log("Shop JSON :"+shopsJSON)
+                shopsParseObj = JSON.parse(shopsJSON)
+                console.log("Shop Obj:"+shopsParseObj[0])
             }
             catch (e) {
-                console.log(chalk.red('File error'))
+                console.log(chalk.red('File error'+e))
             }
+
+
+            
             let consoleStr = ''
             let foundFlag = 'false'
 
