@@ -243,8 +243,7 @@ app.get('/homepage', (req, res) => {
                 const shopsBuffer = fs.readFileSync(shopFilePath)
                 const shopsJSON = shopsBuffer.toString()
                 //shopsParseObj = JSON.parse(shopsJSON)
-
-                shopsParseObj = {"Shop_Name":"test-wal-mp"}
+                shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
 
 
             }
@@ -311,7 +310,7 @@ app.get('/syncproducts', (req, res) => {
                 const shopsJSON = shopsBuffer.toString()
               //  shopsParseObj = JSON.parse(shopsJSON)
 
-                shopsParseObj = {"Shop_Name":"test-wal-mp"}
+              shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
 
 
             }
@@ -360,8 +359,8 @@ app.get('/manageproducts', (req, res) => {
                 const shopsBuffer = fs.readFileSync(shopFilePath)
                 const shopsJSON = shopsBuffer.toString()
                // shopsParseObj = JSON.parse(shopsJSON)
-               shopsParseObj = {"Shop_Name":"test-wal-mp"}
-               
+               shopsParseObj = [{"Shop_Name":"test-wal-mp"}]
+
             }
             catch (e) {
                 console.log(chalk.red('File error'))
