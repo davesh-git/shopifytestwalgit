@@ -145,7 +145,7 @@ app.get('/welcome', (req, res) => {
             let shopFoundFlag = true
 
             //Validate Nonce code
-            const nonce2 = req.query.nonce
+            const nonce2 = req.query.state
             if (nonce2 === 1234353590590904) {
                 console.log(chalk.green('Nonce validated!!!'))
             }
@@ -284,10 +284,6 @@ app.get('/homepage', (req, res) => {
 
 })
 
-app.get('/testpage', (req, res) => {
-    res.send('Test page is working, Thanks')
-})
-
 app.get('/syncproducts', (req, res) => {
 
     //STEP 4 VALIDATE
@@ -319,7 +315,7 @@ app.get('/syncproducts', (req, res) => {
 
                 if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
 
-                    res.send('Sync page')
+                    return res.render('syncproduct.hbs')
                 }
 
                 else {
@@ -365,7 +361,7 @@ app.get('/manageproducts', (req, res) => {
 
                 if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
 
-                    res.send('Manage Product page')
+                    return res.render('product.hbs')
                 }
 
                 else {
