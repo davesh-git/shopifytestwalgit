@@ -179,6 +179,7 @@ app.get('/welcome', (req, res) => {
                 const shopStr = JSON.stringify(shopJSON)
                 fs.writeFileSync(shopFilePath, shopStr)
 
+                console.log(chalk.green("Shop details:"+shopStr))
                 debugger
 
                 //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
