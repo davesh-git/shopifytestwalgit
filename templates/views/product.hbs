@@ -13,7 +13,15 @@
         function getProducts() {
             console.log('Button clicked')
 
-            fetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json')
+            fetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json', {
+                method: 'GET',
+                headers: {
+                    //'Content-Type': 'text/json',
+                   // 'X-My-Custom-Header': 'value-v',
+                    'X-Shopify-Access-Token':d4709901d20d21d4467e96e3715337a8
+                 //   'Authorization': 'Bearer ' + token,
+                }
+            })
                 .then(function (response) {
                     return response.json()
                 })
