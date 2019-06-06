@@ -411,10 +411,10 @@ app.get('/fetchproductlist', (req, res) => {
 
     request(options, (error, response) => {
         if (error) {
-            console.log(chalk.red(error))
+            console.log(chalk.red('Error received:'+error))
         }
         else if (response) {
-            console.log(chalk.green(response))
+            console.log(chalk.green('Response received'+ response))
         }
 
     })
