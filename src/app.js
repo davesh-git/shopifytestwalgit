@@ -396,6 +396,7 @@ app.get('/manageproducts', (req, res) => {
 
 app.get('/fetchproductlist', (req, res) => {
 
+    console.log('Call received for Shopify API call from UI button click')
 
     const url = 'https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json'
 
