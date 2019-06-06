@@ -12,12 +12,20 @@
     <script>
         function getProducts() {
             console.log('Button clicked')
+
+            fetch('https://shopifytestwal.herokuapp.com/fetchproductlist')
+            .then(function (){
+
+            })
+            .then(function() {
+
+            })
           
-            fetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json', {
+          
+            {{!-- fetch('https://shopifytestwal.herokuapp.com/fetchproductlist', {
                 method: 'GET',
                 headers: {
                     'X-Shopify-Access-Token':'a12070de2fb759429529f8d14db10be2',
-                     'Origin': 'https://shopifytestwal.herokuapp.com/'
                 }
             })
                 .then(function (response) {
@@ -28,7 +36,7 @@
                 .then(function (myJson) {
                     console.log(JSON.stringify(myJson))
                     document.getElementById('prod').innerText = JSON.stringify(myJson)
-                });
+                }); --}}
         }
 
     </script>

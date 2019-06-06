@@ -180,7 +180,7 @@ app.get('/welcome', (req, res) => {
                 const shopStr = JSON.stringify(shopJSON)
                 fs.writeFileSync(shopFilePath, shopStr)
 
-                console.log(chalk.green("Shop details:"+shopStr))
+                console.log(chalk.green("Shop details:" + shopStr))
                 debugger
 
                 //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
@@ -239,17 +239,17 @@ app.get('/homepage', (req, res) => {
         if (resultFlag == 'true') {
             let shopsParseObj = ''
             //Get data to check further if shop exists
-          
+
             try {
                 const shopsBuffer = fs.readFileSync(shopFilePath)
-                console.log("Shop Buffer :"+shopsBuffer)
+                console.log("Shop Buffer :" + shopsBuffer)
                 const shopsJSON = shopsBuffer.toString()
-                console.log("Shop JSON :"+shopsJSON)
+                console.log("Shop JSON :" + shopsJSON)
                 shopsParseObj = JSON.parse(shopsJSON)
-                console.log("Shop Obj:"+shopsParseObj[0])
+                console.log("Shop Obj:" + shopsParseObj[0])
             }
             catch (e) {
-                console.log(chalk.red('File error'+e))
+                console.log(chalk.red('File error' + e))
             }
 
             let consoleStr = ''
@@ -307,14 +307,14 @@ app.get('/syncproducts', (req, res) => {
             //Get data to check further if shop exists
             try {
                 const shopsBuffer = fs.readFileSync(shopFilePath)
-                console.log("Shop Buffer :"+shopsBuffer)
+                console.log("Shop Buffer :" + shopsBuffer)
                 const shopsJSON = shopsBuffer.toString()
-                console.log("Shop JSON :"+shopsJSON)
+                console.log("Shop JSON :" + shopsJSON)
                 shopsParseObj = JSON.parse(shopsJSON)
-                console.log("Shop Obj:"+shopsParseObj[0])
+                console.log("Shop Obj:" + shopsParseObj[0])
             }
             catch (e) {
-                console.log(chalk.red('File error'+e))
+                console.log(chalk.red('File error' + e))
             }
 
             let consoleStr = ''
@@ -357,17 +357,17 @@ app.get('/manageproducts', (req, res) => {
         if (resultFlag == 'true') {
             let shopsParseObj = ''
             //Get data to check further if shop exists
-        
+
             try {
                 const shopsBuffer = fs.readFileSync(shopFilePath)
-                console.log("Shop Buffer :"+shopsBuffer)
+                console.log("Shop Buffer :" + shopsBuffer)
                 const shopsJSON = shopsBuffer.toString()
-                console.log("Shop JSON :"+shopsJSON)
+                console.log("Shop JSON :" + shopsJSON)
                 shopsParseObj = JSON.parse(shopsJSON)
-                console.log("Shop Obj:"+shopsParseObj[0])
+                console.log("Shop Obj:" + shopsParseObj[0])
             }
             catch (e) {
-                console.log(chalk.red('File error'+e))
+                console.log(chalk.red('File error' + e))
             }
 
             let consoleStr = ''
@@ -388,6 +388,32 @@ app.get('/manageproducts', (req, res) => {
         }
         else {
             //DO NOTHING or SHOw ERROR WEBPAGE
+        }
+
+    })
+})
+
+
+app.get('/fetchproductlist', (req, res) => {
+
+
+    const url = 'https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json'
+
+    const options = {
+        url: url,
+        method: 'GET',
+        json: true,
+        headers: {
+            'X-Shopify-Access-Token': 'a12070de2fb759429529f8d14db10be2'
+        }
+    }
+
+    request(options, (error, response) => {
+        if (error) {
+            console.log(chalk.red(error))
+        }
+        else if (response) {
+            console.log(chalk.green(response))
         }
 
     })
