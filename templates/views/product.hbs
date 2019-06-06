@@ -5,38 +5,71 @@
 </head>
 
 <body>
-
     <button onclick='getProducts()'>Get Products</button>
     <div id='prod'>
+
     </div>
+
     <script>
+
+        var proxies = [
+            'https://cors.io/?',
+            {
+                url: 'https://cors-anywhere.herokuapp.com/',
+                headers: {
+                    //'X-Requested-With': 'XMLHttpRequest',
+                    'X-Shopify-Access-Token': 'a12070de2fb759429529f8d14db10be2'
+                }
+            },
+        ]
+
+        //Create Proxy request to neglect CORS policy (temporary solution)
+        function proxiedFetch(requestUrl, proxyList) {
+
+            proxyList = proxyList || proxies;
+
+            var requestPromises = proxyList.map(function (proxy) {
+
+                var proxyUrl = proxy.url || proxy,
+                    headers = proxy.headers,
+                    finalUrl = proxyUrl + requestUrl;
+
+                return fetch(finalUrl, headers ? { headers } : null);
+            });
+
+            return Promise.race(requestPromises);
+
+        }
+
+        //Display data on UI
+        function displayDataUI(data) {
+            document.getElementById('prod').innerHTML = JSON.stringify(data)
+        }
+
+
+        //Display Error on UI
+        function displayError(error) {
+            document.getElementById('prod').innerHTML = JSON.stringify(error)
+        }
+
+        //Fetch Product Listing from Shopify
         function getProducts() {
             console.log('Button clicked')
 
-            fetch('https://shopifytestwal.herokuapp.com/fetchproductlist')
-            .then(function (){
 
-            })
-            .then(function() {
-
-            })
-          
-          
-            {{!-- fetch('https://shopifytestwal.herokuapp.com/fetchproductlist', {
-                method: 'GET',
-                headers: {
-                    'X-Shopify-Access-Token':'a12070de2fb759429529f8d14db10be2',
-                }
-            })
-                .then(function (response) {
-
-                    console.log(response)
-                    return response.json()
+            proxiedFetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json')
+                .then(response => {
+                    if (!response.ok) { throw response }
+                    return response.json() //Only if there is no error
                 })
-                .then(function (myJson) {
-                    console.log(JSON.stringify(myJson))
-                    document.getElementById('prod').innerText = JSON.stringify(myJson)
-                }); --}}
+                .then(data => {
+                    console.log(data)
+                    displayDataUI(data)
+                })
+                .catch(err => {
+                    console.log(err)
+                    displayError(err)
+                })
         }
 
     </script>

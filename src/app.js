@@ -10,7 +10,6 @@ const fs = require('fs')
 const hmacvalid = require('./utils/hmacvalid.js')
 const request = require('request')
 
-
 const app = express()
 const viewPath = path.join(__dirname, '../templates/views')
 
@@ -392,36 +391,6 @@ app.get('/manageproducts', (req, res) => {
 
     })
 })
-
-
-app.get('/fetchproductlist', (req, res) => {
-
-    console.log('Call received for Shopify API call from UI button click')
-
-    const url = 'https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json'
-
-    const options = {
-        url: url,
-        method: 'GET',
-        json: true,
-        headers: {
-            'X-Shopify-Access-Token': 'a12070de2fb759429529f8d14db10be2'
-        }
-    }
-
-    request(options, (error, response) => {
-        if (error) {
-            console.log(chalk.red('Error received:'+error))
-        }
-        else if (response) {
-            console.log(chalk.green('Response received'+ response))
-            console.log(chalk.green('Response received-listing'+ response.product_listings))
-            console.log(chalk.green('Response received-Body'+ response.body))
-        }
-
-    })
-})
-
 
 app.listen(process.env.PORT || 3000), () => {
     console.log("Server is runnxing on port 3000")
