@@ -415,6 +415,8 @@ app.get('/fetchproductlist', (req, res) => {
         }
         else if (response) {
             console.log(chalk.green('Response received'+ response))
+            console.log(chalk.green('Response received-listing'+ response.product_listings))
+            console.log(chalk.green('Response received-Body'+ response.body))
         }
 
     })
