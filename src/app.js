@@ -8,6 +8,7 @@ const shopAccessUtil = require('./constants/shopAccess.js')
 const getTokenUtil = require('./utils/gettoken.js')
 const fs = require('fs')
 const hmacvalid = require('./utils/hmacvalid.js')
+const request = require('request')
 
 
 const app = express()
@@ -341,6 +342,9 @@ app.get('/syncproducts', (req, res) => {
 
 
 app.get('/manageproducts', (req, res) => {
+
+    return res.render('product.hbs')
+
     //STEP 4 VALIDATE
     // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
     // The hmac is valid. The HMAC is signed by Shopify as explained below, in Verification.
@@ -396,3 +400,5 @@ app.listen(process.env.PORT || 3000), () => {
 
 
 //chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=localhost:9229/b4111321-4a42-47d0-92b9-525c19c78d5d
+//curl -X GET -H "X-Shopify-Access-Token: a12070de2fb759429529f8d14db10be2" "https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json"
+

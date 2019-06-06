@@ -12,15 +12,17 @@
     <script>
         function getProducts() {
             console.log('Button clicked')
-
+          
             fetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json', {
                 method: 'GET',
-                mode: 'no-cors',
                 headers: {
-                    'X-Shopify-Access-Token':'a12070de2fb759429529f8d14db10be2'
+                    'X-Shopify-Access-Token':'a12070de2fb759429529f8d14db10be2',
+                     'Origin': 'https://shopifytestwal.herokuapp.com/'
                 }
             })
                 .then(function (response) {
+
+                    console.log(response)
                     return response.json()
                 })
                 .then(function (myJson) {
