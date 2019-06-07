@@ -402,5 +402,4 @@ app.listen(process.env.PORT || 3000), () => {
 //chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=localhost:9229/b4111321-4a42-47d0-92b9-525c19c78d5d
 //curl -X GET -H "X-Shopify-Access-Token: a12070de2fb759429529f8d14db10be2" "https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json"
 
-//https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&edit=metafields.walmart.taxcode:string,metafields.walmart.gtin:number,metafields.walmart.checkflag:boolean,metafields.walmart.category:select,metafield.walmart2.size:string.metafield.walmart2.color:string,variants.sku
-
+//https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&edit=metafields.walmart.taxcode:string,metafields.walmart.gtin:string,metafields.walmart.checkflag:boolean,metafields.walmart.category:select,clothing,electronics,metafield.walmart.size:string.metafield.walmart.color:string,variants.sku&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires
