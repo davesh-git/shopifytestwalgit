@@ -9,6 +9,8 @@
 
 <body>
     <button onclick='getProducts()'>Get Products</button>
+    <button onclick='addMetaFields()'>Add MisMan Attributes</button>
+
     <div id='prod'>
     </div>
 
@@ -57,7 +59,7 @@
 
         //Fetch Product Listing from Shopify
         function getProducts() {
-            console.log('Button clicked')
+            console.log('Get Product Button clicked')
 
 
             proxiedFetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json')
@@ -68,15 +70,20 @@
                 .then(data => {
                     console.log('Received from shipify:')
                     //Break the JSON to read the product_listings object  and send the array
-                   // console.log(data.product_listings)
+                    // console.log(data.product_listings)
                     displayDataUI(data.product_listings)
                 })
                 .catch(err => {
+                    console.log('Error API:')
                     console.log(err)
                     displayError(err)
                 })
         }
 
+        function addMetaFields() {
+            console.log('Add Mis-Man Button clicked')
+            location.href = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&edit=metafields.walmart.taxcode:string,metafields.walmart.gtin:number,metafields.walmart.checkflag:boolean,metafields.walmart.category:select,metafield.walmart.size:string.metafield.walmart.color:string,variants.sku'
+        }
     </script>
 
 </body>

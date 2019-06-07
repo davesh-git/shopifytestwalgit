@@ -7,6 +7,7 @@ function CreateTableFromJSON(jsonData) {
         for (var key in jsonData[i]) {
             if (col.indexOf(key) === -1) {
                 col.push(key)
+                console.log('Column:' + col)
             }
         }
     }
@@ -31,7 +32,14 @@ function CreateTableFromJSON(jsonData) {
 
         for (var j = 0; j < col.length; j++) {
             var tabCell = tr.insertCell(-1)
-            tabCell.innerHTML = jsonData[i][col[j]]
+
+            if ([col[j]] == 'variants') {
+                var variantData = JSON.stringify(jsonData[i][col[j]])
+                tabCell.innerHTML = variantData
+            }
+            else {
+                tabCell.innerHTML = jsonData[i][col[j]]
+            }
         }
     }
 

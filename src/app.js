@@ -402,3 +402,5 @@ app.listen(process.env.PORT || 3000), () => {
 //chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=localhost:9229/b4111321-4a42-47d0-92b9-525c19c78d5d
 //curl -X GET -H "X-Shopify-Access-Token: a12070de2fb759429529f8d14db10be2" "https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json"
 
+//https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&edit=metafields.walmart.taxcode:string,metafields.walmart.gtin:number,metafields.walmart.checkflag:boolean,metafields.walmart.category:select,metafield.walmart2.size:string.metafield.walmart2.color:string,variants.sku
+
