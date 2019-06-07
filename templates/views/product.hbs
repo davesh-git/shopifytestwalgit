@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 
 <head>
+    {{!-- 
+    Script to convert JSON to table data for the UI --}}
+    <script type='text/javascript' src='/scripts/printtableJSON.js'></script>
 
 </head>
 
 <body>
     <button onclick='getProducts()'>Get Products</button>
     <div id='prod'>
-
     </div>
 
     <script>
@@ -42,8 +44,9 @@
         }
 
         //Display data on UI
-        function displayDataUI(data) {
-            document.getElementById('prod').innerHTML = JSON.stringify(data)
+        function displayDataUI(productListingsArr) {
+            //Send the product array
+            CreateTableFromJSON(productListingsArr)
         }
 
 
@@ -63,8 +66,10 @@
                     return response.json() //Only if there is no error
                 })
                 .then(data => {
-                    console.log(data)
-                    displayDataUI(data)
+                    console.log('Received from shipify:')
+                    //Break the JSON to read the product_listings object  and send the array
+                   // console.log(data.product_listings)
+                    displayDataUI(data.product_listings)
                 })
                 .catch(err => {
                     console.log(err)

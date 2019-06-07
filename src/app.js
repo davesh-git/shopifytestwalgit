@@ -13,6 +13,9 @@ const request = require('request')
 const app = express()
 const viewPath = path.join(__dirname, '../templates/views')
 
+const publicPath = path.join(__dirname,'../public') 
+app.use(express.static(publicPath))  
+
 const shopFilePath = path.join(__dirname, '/shopList.json')
 app.set('view engine', 'hbs')
 app.set('views', viewPath)
@@ -26,7 +29,6 @@ debugger
 //We will validate and redirect the SHOP to the next page asking for confirmations (via Shopify) and providing the welcome screen URL
 //Once Shop confirms, they will land on Welcome page (whitelisted redirection URL /welome)
 app.get('', (req, res) => {
-
     //STEP 2
     //Validate HMAC - Take the entire string value (Except hmac code) and process through HMAC algo to get hexdigest and match it with hmac value to validate
     console.log(chalk.green("---------------Received Installation Call from Shopify------------------"))
@@ -341,7 +343,7 @@ app.get('/syncproducts', (req, res) => {
 
 
 app.get('/manageproducts', (req, res) => {
-
+    
     return res.render('product.hbs')
 
     //STEP 4 VALIDATE
@@ -376,7 +378,7 @@ app.get('/manageproducts', (req, res) => {
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
                 if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
-
+                    
                     return res.render('product.hbs')
                 }
 
