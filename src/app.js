@@ -344,7 +344,7 @@ app.get('/syncproducts', (req, res) => {
 
 app.get('/manageproducts', (req, res) => {
     
-   //return res.render('product.hbs')
+   return res.render('product.hbs')
 
     //STEP 4 VALIDATE
     // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
