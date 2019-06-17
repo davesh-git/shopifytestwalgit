@@ -36,6 +36,7 @@ app.get('', (req, res) => {
     const urlParams = new URLSearchParams(req.query)
 
     console.log(chalk.yellow('Shopify call:' + req.url))
+    console.log("Shopify full call"+req)
 
     //Check if request came from Shopify - validate HMAC
     hmacvalid(urlParams, (resultFlag) => {
