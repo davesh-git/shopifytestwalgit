@@ -81,7 +81,7 @@
 
         function addMetaFields() {
             console.log('Add Mis-Man Button clicked')
-            const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&edit=metafields.walmart.taxcode:string,metafields.walmart.gtin:number,metafields.walmart.checkflag:boolean,metafields.walmart.category:select,metafields.walmart.size:string,metafields.walmart.color:string,variants.sku&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
+            const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.gtin:number,metafields.walmart.checkflag:boolean,metafields.walmart.category:select,metafields.walmart.size:string,metafields.walmart.color:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
             window.open(url, '_blank');
         }
     </script>
