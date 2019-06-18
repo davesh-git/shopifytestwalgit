@@ -189,7 +189,7 @@ app.get('/welcome', (req, res) => {
                 //(shopName, client_id, client_secret, authcode, callback) 
                 let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                 tokenCall.then((response) => {
-                    console.log(chalk.yellow(response.token + ',' + response.scope))
+                    console.log(chalk.yellow('Token'+response.token + ',' + response.scope))
                 }, (error) => {
                     console.log(chalk.red(response.error))
                 })

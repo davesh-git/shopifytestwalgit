@@ -69,7 +69,8 @@
                 .then(data => {
                     console.log('Received from shipify:')
                     //Break the JSON to read the product_listings object  and send the array
-                    // console.log(data.product_listings)
+                    console.log('Data Payload'+data)
+                    console.log('Productlistings'+data.product_listings)
                     displayDataUI(data.product_listings)
                 })
                 .catch(err => {
