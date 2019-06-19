@@ -10,6 +10,7 @@
 <body>
     <button onclick='getProducts()'>Get Products</button>
     <button onclick='addMetaFields()'>Add MisMan Attributes</button>
+    <button onclick='registerWebhook()'>Register for Webhook</button>
 
     <div id='prod'>
     </div>
@@ -44,6 +45,46 @@
 
         }
 
+        var proxiespost = [
+            'https://cors.io/?',
+            {
+                url: 'https://cors-anywhere.herokuapp.com/',
+                headers: {
+                    'X-Shopify-Access-Token': 'd1f5db8c1c86bcaf9bf36c7bdff814c6'
+                },
+                body: {
+                    'webhook': {
+                        'topic': 'products/update',
+                        'address': 'https://shopifytestwal.herokuapp.com/webhook/productupdate',
+                        'format': 'json'
+                    }
+                },
+                method: 'POST'
+            },
+        ]
+
+
+        //Create Proxy request to neglect CORS policy (temporary solution)
+        function proxiedFetchpost(requestUrl, proxyList) {
+
+            proxyList = proxyList || proxiespost;
+
+            var requestPromises = proxyList.map(function (proxy) {
+
+                var proxyUrl = proxy.url || proxy
+                headers = proxy.headers
+                finalUrl = proxyUrl + requestUrl
+                body = proxy.body
+                method = proxy.method
+
+                return fetch(finalUrl, headers ? { headers } : null, method, body);
+
+            });
+
+            return Promise.race(requestPromises);
+
+        }
+
         //Display data on UI
         function displayDataUI(productListingsArr) {
             //Send the product array
@@ -69,11 +110,11 @@
                 .then(data => {
                     console.log('Received from shipify:')
                     //Break the JSON to read the product_listings object  and send the array
-                    console.log('Data Payload'+JSON.stringify(data))
-                    console.log('Productlistings'+JSON.stringify(data.product_listings))
+                    console.log('Data Payload' + JSON.stringify(data))
+                    console.log('Productlistings' + JSON.stringify(data.product_listings))
                     displayDataUI(data.product_listings)
                 })
-                
+
                 .catch(err => {
                     console.log('Error API:')
                     console.log(err)
@@ -85,6 +126,28 @@
             console.log('Add Mis-Man Button clicked')
             const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.gtin:number,metafields.walmart.checkflag:boolean,metafields.walmart.category:select,metafields.walmart.size:string,metafields.walmart.color:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
             window.open(url, '_blank');
+        }
+
+        function registerWebhook() {
+
+
+            proxiedFetchpost('https://test-wal-mp.myshopify.com/admin/api/2019-04/webhooks.json')
+                .then(response => {
+                    if (!response.ok) { throw response }
+                    return response.json() //Only if there is no error
+                })
+                .then(data => {
+                    console.log('Webhook subscribe request from shopify:')
+                    //Break the JSON to read the product_listings object  and send the array
+                    console.log('Data Payload' + JSON.stringify(data))
+                })
+
+                .catch(err => {
+                    console.log('Error API:')
+                    console.log(err)
+                    displayError(err)
+                })
+
         }
     </script>
 

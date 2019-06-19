@@ -395,6 +395,12 @@ app.get('/manageproducts', (req, res) => {
     })
 })
 
+app.post('/webhook/productupdate',(req,res)=>{
+    console.log('Request from Shopify Webhook:'+req)
+    console.log('Request payload'+req.body)
+    console.log('Request url'+req.url)
+})
+
 app.listen(process.env.PORT || 3000), () => {
     console.log("Server is runnxing on port 3000")
 }
