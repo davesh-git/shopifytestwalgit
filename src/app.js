@@ -13,8 +13,8 @@ const request = require('request')
 const app = express()
 const viewPath = path.join(__dirname, '../templates/views')
 
-const publicPath = path.join(__dirname,'../public') 
-app.use(express.static(publicPath))  
+const publicPath = path.join(__dirname, '../public')
+app.use(express.static(publicPath))
 
 const shopFilePath = path.join(__dirname, '/shopList.json')
 app.set('view engine', 'hbs')
@@ -36,7 +36,7 @@ app.get('', (req, res) => {
     const urlParams = new URLSearchParams(req.query)
 
     console.log(chalk.yellow('Shopify call:' + req.url))
-    console.log("Shopify full call"+req)
+    console.log("Shopify full call" + req)
 
     //Check if request came from Shopify - validate HMAC
     hmacvalid(urlParams, (resultFlag) => {
@@ -189,7 +189,7 @@ app.get('/welcome', (req, res) => {
                 //(shopName, client_id, client_secret, authcode, callback) 
                 let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                 tokenCall.then((response) => {
-                    console.log(chalk.yellow('Token'+response.token + ',' + response.scope))
+                    console.log(chalk.yellow('Token' + response.token + ',' + response.scope))
                 }, (error) => {
                     console.log(chalk.red(response.error))
                 })
@@ -225,7 +225,6 @@ app.get('/welcome', (req, res) => {
 
 //This is called once user opens the installed app and first navigation link
 app.get('/homepage', (req, res) => {
-
     console.log(chalk.green('-----------------Shopify Home page request from app (Already installed)' + req.url + ",query:" + req.query + '-------------------'))
 
     console.log(chalk.yellow('URL called should have nonce:' + req.query.url))
@@ -295,57 +294,22 @@ app.get('/homepage', (req, res) => {
 
 app.get('/syncproducts', (req, res) => {
 
-    //STEP 4 VALIDATE
-    // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
-    // The hmac is valid. The HMAC is signed by Shopify as explained below, in Verification.
-    // The hostname parameter is a valid hostname, ends with myshopify.com, and does not contain characters other than letters (a-z), numbers (0-9), dots, and hyphens.
-    const urlParams = new URLSearchParams(req.query)
+    const url = 'https://shopifywalbackend.herokuapp.com/backend/syncproducts'
+    request({ url: url }, (error, response) => {
+        if (error) {
 
-    //Check if request came from Shopify - validate HMAC
-    hmacvalid(urlParams, (resultFlag) => {
-        //Request validated from Shopify
-        if (resultFlag == 'true') {
-            let shopsParseObj = ''
-            //Get data to check further if shop exists
-            try {
-                const shopsBuffer = fs.readFileSync(shopFilePath)
-                console.log("Shop Buffer :" + shopsBuffer)
-                const shopsJSON = shopsBuffer.toString()
-                console.log("Shop JSON :" + shopsJSON)
-                shopsParseObj = JSON.parse(shopsJSON)
-                console.log("Shop Obj:" + shopsParseObj[0])
-            }
-            catch (e) {
-                console.log(chalk.red('File error' + e))
-            }
-
-            let consoleStr = ''
-            let foundFlag = 'false'
-
-            //Shop should definitely exist at this stage
-            if (otherUtils.emptyCheck(shopsParseObj) === false) {
-
-                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
-
-                    return res.render('syncproduct.hbs')
-                }
-
-                else {
-                    return res.send('your Shop not found, please try again')
-                }
-            }
         }
-        else {
-            //DO NOTHING or SHOw ERROR WEBPAGE
+        else if (response) {
+            const data = response.body
+            console.log(data)
         }
-
     })
 })
 
 
 app.get('/manageproducts', (req, res) => {
-    
-   return res.render('product.hbs')
+
+    return res.render('product.hbs')
 
     //STEP 4 VALIDATE
     // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
@@ -379,7 +343,7 @@ app.get('/manageproducts', (req, res) => {
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
                 if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
-                    
+
                     return res.render('product.hbs')
                 }
 
@@ -395,10 +359,10 @@ app.get('/manageproducts', (req, res) => {
     })
 })
 
-app.post('/webhook/productupdate',(req,res)=>{
-    console.log('Request from Shopify Webhook:'+req)
-    console.log('Request payload'+req.body)
-    console.log('Request url'+req.url)
+app.post('/webhook/productupdate', (req, res) => {
+    console.log('Request from Shopify Webhook:' + req)
+    console.log('Request payload' + req.body)
+    console.log('Request url' + req.url)
 })
 
 app.listen(process.env.PORT || 3000), () => {
