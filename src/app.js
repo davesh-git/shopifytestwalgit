@@ -302,6 +302,7 @@ app.get('/syncproducts', (req, res) => {
         else if (response) {
             const data = response.body
             console.log(data)
+            return res.send(response.body)
         }
     })
 })
