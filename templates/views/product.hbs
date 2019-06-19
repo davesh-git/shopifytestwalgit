@@ -33,10 +33,7 @@
         //Fetch Product Listing from Shopify
         function getProducts() {
             console.log('Get Product Button clicked')
-
-
-           // proxiedFetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json')
-           fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings')
+            fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings')
                 .then(response => {
                     if (!response.ok) { throw response }
                     return response.json() //Only if there is no error
@@ -65,15 +62,19 @@
         function registerWebhook() {
 
 
-            proxiedFetchpost('https://test-wal-mp.myshopify.com/admin/api/2019-04/webhooks.json')
+            fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate')
                 .then(response => {
                     if (!response.ok) { throw response }
                     return response.json() //Only if there is no error
                 })
                 .then(data => {
-                    console.log('Webhook subscribe request from shopify:')
+                    console.log('Received from our backend:')
                     //Break the JSON to read the product_listings object  and send the array
-                    console.log('Data Payload' + JSON.stringify(data))
+                    console.log('Data Payload response to webhook from backend' + JSON.stringify(data))
+
+                     var divContainer = document.getElementById('prod')
+                     divContainer.innerHTML = JSON.stringify(data)
+
                 })
 
                 .catch(err => {
@@ -81,7 +82,6 @@
                     console.log(err)
                     displayError(err)
                 })
-
         }
     </script>
 
