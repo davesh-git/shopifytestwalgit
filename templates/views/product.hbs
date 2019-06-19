@@ -102,7 +102,8 @@
             console.log('Get Product Button clicked')
 
 
-            proxiedFetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json')
+           // proxiedFetch('https://test-wal-mp.myshopify.com/admin/api/2019-04/product_listings.json')
+           fetch('https://shopifywalbackend.herokuapp.com//backend/product_listings')
                 .then(response => {
                     if (!response.ok) { throw response }
                     return response.json() //Only if there is no error
