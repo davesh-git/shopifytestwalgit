@@ -3,6 +3,7 @@ function CreateTableFromJSON(jsonData) {
     console.log('JSondata:' + jsonData)
     // EXTRACT VALUE FOR HTML HEADER. 
     var col = []
+    col.push('SNo') //Added DB
     for (var i = 0; i < jsonData.length; i++) {
         for (var key in jsonData[i]) {
             if (col.indexOf(key) === -1) {
@@ -29,6 +30,9 @@ function CreateTableFromJSON(jsonData) {
     for (var i = 0; i < jsonData.length; i++) {
 
         tr = table.insertRow(-1)
+
+        var tabCell = tr.insertcell(-1) // added DB
+        tabCell.innerHTML = i //added DB
 
         for (var j = 0; j < col.length; j++) {
             var tabCell = tr.insertCell(-1)
