@@ -31,7 +31,7 @@ function CreateTableFromJSON(jsonData) {
 
         tr = table.insertRow(-1)
 
-        var tabCell = tr.insertcell(-1) // added DB
+        var tabCell = tr.insertCell(-1) // added DB
         tabCell.innerHTML = i //added DB
 
         for (var j = 0; j < col.length; j++) {
