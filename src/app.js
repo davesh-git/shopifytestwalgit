@@ -313,7 +313,7 @@ app.get('/manageproducts', (req, res) => {
     console.log('Headers'+JSON.stringify(req.headers))
     console.log('Request payload' + JSON.stringify(req.body))
     console.log('Request url' + req.url)
-    console.log('Full Request:'+JSON.stringify(req))
+   // console.log('Full Request:'+JSON.stringify(req))
 
 
     return res.render('product.hbs')
