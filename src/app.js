@@ -361,9 +361,11 @@ app.get('/manageproducts', (req, res) => {
 })
 
 app.post('/webhook/productupdate', (req, res) => {
+    console.log('Headers'+req.headers)
     console.log('Request from Shopify Webhook:' + req)
     console.log('Request payload' + req.body)
     console.log('Request url' + req.url)
+    console.log('Full Request:'+req)
 })
 
 app.listen(process.env.PORT || 3000), () => {
