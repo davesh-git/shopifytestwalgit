@@ -310,6 +310,13 @@ app.get('/syncproducts', (req, res) => {
 
 app.get('/manageproducts', (req, res) => {
 
+    console.log('Headers'+req.headers)
+    console.log('Request from Shopify Webhook:' + req)
+    console.log('Request payload' + req.body)
+    console.log('Request url' + req.url)
+    console.log('Full Request:'+req)
+
+    
     return res.render('product.hbs')
 
     //STEP 4 VALIDATE
