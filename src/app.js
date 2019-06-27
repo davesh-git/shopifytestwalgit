@@ -37,6 +37,8 @@ app.get('', (req, res) => {
 
     console.log(chalk.yellow('Shopify call:' + req.url))
     console.log("Shopify full call" + req)
+    console.log('Shopify headers'+ JSON.stringify(req.headers))
+    console.log('Shopify Reqeust Body'+ JSON.stringify(req.body))
 
     //Check if request came from Shopify - validate HMAC
     hmacvalid(urlParams, (resultFlag) => {
@@ -127,7 +129,12 @@ app.get('/welcome', (req, res) => {
     // The hmac is valid. The HMAC is signed by Shopify as explained below, in Verification.
     // The hostname parameter is a valid hostname, ends with myshopify.com, and does not contain characters other than letters (a-z), numbers (0-9), dots, and hyphens.
     const urlParams = new URLSearchParams(req.query)
+    console.log(chalk.yellow('Shopify call:' + req.url))
+    console.log("Shopify full call" + req)
+    console.log('Shopify headers'+ JSON.stringify(req.headers))
+    console.log('Shopify Reqeust Body'+ JSON.stringify(req.body))
 
+    
     //Check if request came from Shopify - validate HMAC
     hmacvalid(urlParams, (resultFlag) => {
         //Request validated from Shopify
