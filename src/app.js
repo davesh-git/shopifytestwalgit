@@ -303,8 +303,8 @@ app.get('/syncproducts', (req, res) => {
             const data = 'Backend Internal API Body'+ response.body
             const data3 = 'Request Payload From Shopify Body'+ JSON.stringify(req.body)
             const data2 = 'Request Payload From Shopify Header'+ JSON.stringify(req.headers)
-            console.log(data + ',' + data2)
-            return res.send(response.body + data2)
+            console.log(data + ',' + data2 + ',' +data3)
+            return res.send(data + data2 + data3)
         }
     })
 })
