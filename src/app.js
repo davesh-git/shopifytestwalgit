@@ -301,7 +301,7 @@ app.get('/syncproducts', (req, res) => {
         }
         else if (response) {
             const data = response.body
-            const data2 = 'Header'+ req.headers
+            const data2 = 'Header'+ JSON.stringify(req.headers)
             console.log(data + ',' + data2)
             return res.send(response.body + data2)
         }
