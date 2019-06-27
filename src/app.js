@@ -300,8 +300,9 @@ app.get('/syncproducts', (req, res) => {
 
         }
         else if (response) {
-            const data = response.body
-            const data2 = 'Header'+ JSON.stringify(req.headers)
+            const data = 'Backend Internal API Body'+ response.body
+            const data3 = 'Request Payload From Shopify Body'+ JSON.stringify(req.body)
+            const data2 = 'Request Payload From Shopify Header'+ JSON.stringify(req.headers)
             console.log(data + ',' + data2)
             return res.send(response.body + data2)
         }
