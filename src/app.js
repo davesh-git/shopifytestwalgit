@@ -318,12 +318,17 @@ app.get('/syncproducts', (req, res) => {
 
 app.get('/manageproducts', (req, res) => {
 
+        // shop=walmart-sales-store.myshopify.com
+        const tmpShopName = req.query.shop
+        const queryShop = (tmpShopName.split('.'))[0]
+    
+
     console.log('Headers' + JSON.stringify(req.headers))
     console.log('Request payload' + JSON.stringify(req.body))
     console.log('Request url' + req.url)
     // console.log('Full Request:'+JSON.stringify(req))
 
-    return res.render('product.hbs', { shop: ShopName[0] }) //Commented for WalmartApp Playground
+    return res.render('product.hbs', { shop: queryShop }) //Commented for WalmartApp Playground
 
     //STEP 4 VALIDATE
     // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
