@@ -4,7 +4,7 @@ const request = require('request')
 
 const getToken = (shopName, client_id, client_secret, authcode) => {
 
-   const url = 'https://' + shopName + encodeURIComponent(shopAccessUtil.tokenURLPart)
+   const url = 'https://' + shopName + '.myshopify.com/admin/oauth/access_token' //encodeURIComponent(shopAccessUtil.tokenURLPart)
    // const url ='https://test-wal-mp.myshopify.com/admin/oauth/access_token' //Commented for WalmartApp Playground
 
     const body = {
