@@ -7,7 +7,7 @@
     {{!--
     //Commented for WalmartApp Playground
     --}}
-    var shop = '{{shop}}
+   
 
 </head>
 
@@ -21,6 +21,7 @@
 
     <script>
 
+       var shop = '{{shop}}'
 
         //Display data on UI
         function displayDataUI(productListingsArr) {
@@ -39,7 +40,8 @@
             console.log('Get Product Button clicked')
             //Commented for WalmartApp Playground
             //fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings')
-            fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings?shop='+shop)
+            const url = 'https://shopifywalbackend.herokuapp.com/backend/product_listings?shop='+shop
+            fetch(url)
                 .then(response => {
                     if (!response.ok) { throw response }
                     return response.json() //Only if there is no error
@@ -64,8 +66,6 @@
             //Commented for WalmartApp Playground
            // const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
              const url = 'https://'+shop+'.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
-           
-            
             window.open(url, '_blank');
         }
 
