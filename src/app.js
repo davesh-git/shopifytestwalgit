@@ -43,8 +43,8 @@ app.get('', (req, res) => {
 
     console.log(chalk.yellow('Shopify call:' + req.url))
     console.log("Shopify full call" + req)
-    console.log('Shopify headers'+ JSON.stringify(req.headers))
-    console.log('Shopify Reqeust Body'+ JSON.stringify(req.body))
+    console.log('Shopify headers' + JSON.stringify(req.headers))
+    console.log('Shopify Reqeust Body' + JSON.stringify(req.body))
 
     //Check if request came from Shopify - validate HMAC
     hmacvalid(urlParams, (resultFlag) => {
@@ -137,10 +137,14 @@ app.get('/welcome', (req, res) => {
     const urlParams = new URLSearchParams(req.query)
     console.log(chalk.yellow('Shopify call:' + req.url))
     console.log("Shopify full call" + req)
-    console.log('Shopify headers'+ JSON.stringify(req.headers))
-    console.log('Shopify Reqeust Body'+ JSON.stringify(req.body))
+    console.log('Shopify headers' + JSON.stringify(req.headers))
+    console.log('Shopify Reqeust Body' + JSON.stringify(req.body))
 
-    
+    // shop=walmart-sales-store.myshopify.com
+    const tmpShopName = req.query.shop
+    const queryShop = (tmpShopName.split('.'))[0]
+
+
     //Check if request came from Shopify - validate HMAC
     hmacvalid(urlParams, (resultFlag) => {
         //Request validated from Shopify
@@ -177,7 +181,7 @@ app.get('/welcome', (req, res) => {
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
                 //IF SHOP EXISTS at our end
-                if (shopsParseObj.filter((shop) => shop.Shop_Name === ShopName[0])) {
+                if (shopsParseObj.filter((shop) => shop.Shop_Name === queryShop)) {
                     shopFoundFlag = true
 
                     console.log(chalk.red('ALERT! - This call is not possible and RISK'))
@@ -189,41 +193,24 @@ app.get('/welcome', (req, res) => {
             //If shop was not found, and this was the valid first time /welcome call
             if (shopFoundFlag === true) {
                 const shopJSON = [{
-                    Shop_Name: ShopName[0]
+                    Shop_Name: queryShop
                 }]
                 console.log(chalk.green('Adding to DB that partner has installed the app'))
                 const shopStr = JSON.stringify(shopJSON)
-               // fs.writeFileSync(shopFilePath, shopStr)// //Commented for WalmartApp Playground
-               fs.appendFileSync(shopFilePath, shopStr)
+                // fs.writeFileSync(shopFilePath, shopStr)// //Commented for WalmartApp Playground
+                fs.appendFileSync(shopFilePath, shopStr)
 
                 console.log(chalk.green("Shop details:" + shopStr))
                 debugger
 
                 //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
                 //(shopName, client_id, client_secret, authcode, callback) 
-                let tokenCall = getTokenUtil.getToken(ShopName[0], envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
+                let tokenCall = getTokenUtil.getToken(queryShop, envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                 tokenCall.then((response) => {
                     console.log(chalk.yellow('Token' + response.token + ',' + response.scope))
                 }, (error) => {
                     console.log(chalk.red(response.error))
                 })
-
-                // //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
-                // //(shopName, client_id, client_secret, authcode, callback) 
-                // getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code, (response) => {
-
-                //     console.log(chalk.green('Call to Shopify to fetch API token'))
-
-                //     if (response.error !== undefined) {
-                //         console.log(chalk.yellow(response.token + ',' + response.scope))
-
-                //         //SAVE THE TOKEN IN DB
-                //     }
-                //     else {
-                //         console.log(chalk.red(response.error))
-                //     }
-
-                //})
 
                 //Render welcome page
                 return res.render('welcome.hbs')
@@ -242,6 +229,11 @@ app.get('/homepage', (req, res) => {
     console.log(chalk.green('-----------------Shopify Home page request from app (Already installed)' + req.url + ",query:" + req.query + '-------------------'))
 
     console.log(chalk.yellow('URL called should have nonce:' + req.query.url))
+
+
+    // shop=walmart-sales-store.myshopify.com
+    const tmpShopName = req.query.shop
+    const queryShop = (tmpShopName.split('.'))[0]
 
     //STEP 4 VALIDATE
     // The hmac is valid. The HMAC is signed by Shopify as explained below, in Verification.
@@ -273,7 +265,7 @@ app.get('/homepage', (req, res) => {
             //Shop should definitely exist at this stage
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
-                if (shopsParseObj.filter((shop) => shop.Shop_Name === ShopName[0])) {
+                if (shopsParseObj.filter((shop) => shop.Shop_Name === queryShop)) {
 
                     //GET THE ONLINE ACCESS TOKEN FOR UI CALLS AND AUTHENTICATION WHICH USER IS USING THIS APP (This should only happen if token fetch during welcome page failed)
 
@@ -282,7 +274,7 @@ app.get('/homepage', (req, res) => {
                     //-----IF TOKEN DOES NOT EXIST ALREADY---s)
                     //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
                     //(shopName, client_id, client_secret, authcode, callback) 
-                    let tokenCall = getTokenUtil.getToken(ShopName[0], envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
+                    let tokenCall = getTokenUtil.getToken(queryShop, envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                     tokenCall.then((response) => {
                         console.log(response.token + ',' + response.scope)
                     }, (error) => {
@@ -314,10 +306,10 @@ app.get('/syncproducts', (req, res) => {
 
         }
         else if (response) {
-            const data = 'Backend Internal API Body'+ response.body
-            const data3 = 'Request Payload From Shopify Body'+ JSON.stringify(req.body)
-            const data2 = 'Request Payload From Shopify Header'+ JSON.stringify(req.headers)
-            console.log(data + ',' + data2 + ',' +data3)
+            const data = 'Backend Internal API Body' + response.body
+            const data3 = 'Request Payload From Shopify Body' + JSON.stringify(req.body)
+            const data2 = 'Request Payload From Shopify Header' + JSON.stringify(req.headers)
+            console.log(data + ',' + data2 + ',' + data3)
             return res.send(data + data2 + data3)
         }
     })
@@ -326,12 +318,12 @@ app.get('/syncproducts', (req, res) => {
 
 app.get('/manageproducts', (req, res) => {
 
-    console.log('Headers'+JSON.stringify(req.headers))
+    console.log('Headers' + JSON.stringify(req.headers))
     console.log('Request payload' + JSON.stringify(req.body))
     console.log('Request url' + req.url)
-   // console.log('Full Request:'+JSON.stringify(req))
+    // console.log('Full Request:'+JSON.stringify(req))
 
-    return res.render('product.hbs', {shop:ShopName[0]}) //Commented for WalmartApp Playground
+    return res.render('product.hbs', { shop: ShopName[0] }) //Commented for WalmartApp Playground
 
     //STEP 4 VALIDATE
     // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')
@@ -382,11 +374,11 @@ app.get('/manageproducts', (req, res) => {
 })
 
 app.post('/webhook/productupdate', (req, res) => {
-    console.log('Headers'+req.headers)
+    console.log('Headers' + req.headers)
     console.log('Request from Shopify Webhook:' + req)
     console.log('Request payload' + req.body)
     console.log('Request url' + req.url)
-    console.log('Full Request:'+req)
+    console.log('Full Request:' + req)
 })
 
 app.listen(process.env.PORT || 3000), () => {
