@@ -32,7 +32,10 @@ app.get('', (req, res) => {
     //STEP 2
     //Validate HMAC - Take the entire string value (Except hmac code) and process through HMAC algo to get hexdigest and match it with hmac value to validate
     console.log(chalk.green("---------------Received Installation Call from Shopify------------------"))
-    const shopName = 'test-wal-mp'// req.query.shop
+    //const shopName = 'test-wal-mp'// req.query.shop  //Commented for WalmartApp Playground
+    const tmpShopName = req.query.shop
+    const shopName = tnmpShopName.split('.')
+    //ShopName is ShopName[0] and updated test-wal-mp as part of this change
     const urlParams = new URLSearchParams(req.query)
 
     console.log(chalk.yellow('Shopify call:' + req.url))
@@ -82,7 +85,7 @@ app.get('', (req, res) => {
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
                 //IF SHOP EXISTS at our end - THEN SHOULD NOT BE ENTERTAINED AS CAN BE SECURITY RISK
-                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
+                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'ShopName[0]')) {
                     //This is the redirect URL after installation. In the post calls, that is after app installations, this '/' will be called but we might not have to pass all these parameters (check SLDB and change the Params)
                     //Also, when User comes to '/welcome' it should be dynamic content
                     //  redirectURL = 'https://' + encodeURIComponent(shopName) + '.myshopify.com/admin/oauth/authorize?client_id=' + encodeURIComponent(envVarUtil.envVars.SHOPIFY_API_KEY) +
@@ -171,7 +174,7 @@ app.get('/welcome', (req, res) => {
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
                 //IF SHOP EXISTS at our end
-                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
+                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'ShopName[0]')) {
                     shopFoundFlag = true
 
                     console.log(chalk.red('ALERT! - This call is not possible and RISK'))
@@ -183,18 +186,19 @@ app.get('/welcome', (req, res) => {
             //If shop was not found, and this was the valid first time /welcome call
             if (shopFoundFlag === true) {
                 const shopJSON = [{
-                    Shop_Name: 'test-wal-mp'
+                    Shop_Name: 'ShopName[0]'
                 }]
                 console.log(chalk.green('Adding to DB that partner has installed the app'))
                 const shopStr = JSON.stringify(shopJSON)
-                fs.writeFileSync(shopFilePath, shopStr)
+               // fs.writeFileSync(shopFilePath, shopStr)// //Commented for WalmartApp Playground
+               fs.appendFileSync(shopFilePath, shopStr)
 
                 console.log(chalk.green("Shop details:" + shopStr))
                 debugger
 
                 //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
                 //(shopName, client_id, client_secret, authcode, callback) 
-                let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
+                let tokenCall = getTokenUtil.getToken('ShopName[0]', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                 tokenCall.then((response) => {
                     console.log(chalk.yellow('Token' + response.token + ',' + response.scope))
                 }, (error) => {
@@ -266,7 +270,7 @@ app.get('/homepage', (req, res) => {
             //Shop should definitely exist at this stage
             if (otherUtils.emptyCheck(shopsParseObj) === false) {
 
-                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'test-wal-mp')) {
+                if (shopsParseObj.filter((shop) => shop.Shop_Name === 'ShopName[0]')) {
 
                     //GET THE ONLINE ACCESS TOKEN FOR UI CALLS AND AUTHENTICATION WHICH USER IS USING THIS APP (This should only happen if token fetch during welcome page failed)
 
@@ -275,7 +279,7 @@ app.get('/homepage', (req, res) => {
                     //-----IF TOKEN DOES NOT EXIST ALREADY---s)
                     //GET THE PERMANENT TOKEN FOR BACKEND CALLS  (STORE IT IN KEYSTORE DB) -CHECK ALL REQUESTED SCOPES ARE GIVEN (only write ones will be sent back)
                     //(shopName, client_id, client_secret, authcode, callback) 
-                    let tokenCall = getTokenUtil.getToken('test-wal-mp', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
+                    let tokenCall = getTokenUtil.getToken('ShopName[0]', envVarUtil.envVars.SHOPIFY_API_KEY, envVarUtil.envVars.SHOPIFY_SECRET_API_KEY, req.query.code)
                     tokenCall.then((response) => {
                         console.log(response.token + ',' + response.scope)
                     }, (error) => {
@@ -324,8 +328,7 @@ app.get('/manageproducts', (req, res) => {
     console.log('Request url' + req.url)
    // console.log('Full Request:'+JSON.stringify(req))
 
-
-    return res.render('product.hbs')
+    return res.render('product.hbs', {shop:ShopName[0]}) //Commented for WalmartApp Playground
 
     //STEP 4 VALIDATE
     // The nonce is the same one that your app provided to Shopify during step two (to make suree this was redirected call from '/')

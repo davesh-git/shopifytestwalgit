@@ -4,6 +4,10 @@
     {{!-- 
     Script to convert JSON to table data for the UI --}}
     <script type='text/javascript' src='/scripts/printtableJSON.js'></script>
+    {{!--
+    //Commented for WalmartApp Playground
+    --}}
+    var shop = '{{shop}}
 
 </head>
 
@@ -33,7 +37,9 @@
         //Fetch Product Listing from Shopify
         function getProducts() {
             console.log('Get Product Button clicked')
-            fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings')
+            //Commented for WalmartApp Playground
+            //fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings')
+            fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings?shop='+shop)
                 .then(response => {
                     if (!response.ok) { throw response }
                     return response.json() //Only if there is no error
@@ -55,14 +61,19 @@
 
         function addMetaFields() {
             console.log('Add Mis-Man Button clicked')
-            const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
+            //Commented for WalmartApp Playground
+           // const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
+             const url = 'https://'+shop+'.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
+           
+            
             window.open(url, '_blank');
         }
 
         function registerWebhook() {
 
-
-            fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate')
+            //Commented for WalmartApp Playground
+           // fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate')
+           fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate?shop='+shop)
                 .then(response => {
                     if (!response.ok) { throw response }
                     return response.json() //Only if there is no error
