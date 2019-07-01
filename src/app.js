@@ -36,7 +36,8 @@ app.get('', (req, res) => {
     const tmpShopName = req.query.shop
     const shopName = tmpShopName.split('.')
 
-    console.log('Received Shop ID: ' + shopName)
+
+    console.log('Received Shop ID: ' + shopName[0])
     //ShopName is ShopName[0] and updated test-wal-mp as part of this change
     const urlParams = new URLSearchParams(req.query)
 
@@ -100,7 +101,7 @@ app.get('', (req, res) => {
             //FIRST TIME shop has installed the app, or somehow data does not exist at our end 
             if (redirectInstallFlag === true) {
                 //Redirect to Shopify Install Prompt - THIS IS THE FIRST TIME USER HAS NOT INSTALLED THE APP (Check in our DB config - SLDB lookup)
-                redirectURL = 'https://' + encodeURIComponent(shopName) + '.myshopify.com/admin/oauth/authorize?client_id=' + encodeURIComponent(envVarUtil.envVars.SHOPIFY_API_KEY) +
+                redirectURL = 'https://' + encodeURIComponent(shopName[0]) + '.myshopify.com/admin/oauth/authorize?client_id=' + encodeURIComponent(envVarUtil.envVars.SHOPIFY_API_KEY) +
                     '&scope=' + encodeURIComponent(shopScope) + '&redirect_uri=' + firstWelcomeRedirectURL + '&state=' + shopNonce + '&grant_options[]=' + shopAccessMode
                 consoleStr = 'This is the first time installation call'
             }
