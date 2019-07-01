@@ -34,7 +34,6 @@ app.get('', (req, res) => {
     console.log(chalk.green("---------------Received Installation Call from Shopify------------------"))
     //const shopName = 'test-wal-mp'// req.query.shop  //Commented for WalmartApp Playground
     const tmpShopName = req.query.shop
-    const tmpShopName = req.query.shop
     const shopName = tnmpShopName.split('.')
 
     console.log('Received Shop ID: ' + shopName)
