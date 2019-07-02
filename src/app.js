@@ -226,8 +226,7 @@ app.get('/welcome', (req, res) => {
 
 //This is called once user opens the installed app and first navigation link
 app.get('/homepage', (req, res) => {
-
-    return res.send('Received')
+    
     console.log(chalk.green('-----------------Shopify Home page request from app (Already installed)' + req.url + ",query:" + req.query + '-------------------'))
 
     console.log(chalk.yellow('URL called should have nonce:' + req.query.url))
