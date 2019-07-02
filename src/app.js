@@ -318,10 +318,10 @@ app.get('/syncproducts', (req, res) => {
 
 app.get('/manageproducts', (req, res) => {
 
-        // shop=walmart-sales-store.myshopify.com
-        const tmpShopName = req.query.shop
-        const queryShop = (tmpShopName.split('.'))[0]
-    
+    // shop=walmart-sales-store.myshopify.com
+    const tmpShopName = req.query.shop
+    const queryShop = (tmpShopName.split('.'))[0]
+
 
     console.log('Headers' + JSON.stringify(req.headers))
     console.log('Request payload' + JSON.stringify(req.body))

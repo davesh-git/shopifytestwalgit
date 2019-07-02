@@ -7,7 +7,7 @@
     {{!--
     //Commented for WalmartApp Playground
     --}}
-   
+
 
 </head>
 
@@ -15,13 +15,27 @@
     <button onclick='getProducts()'>Get Products</button>
     <button onclick='addMetaFields()'>Add MisMan Attributes</button>
     <button onclick='registerWebhook()'>Register for Webhook</button>
+    <button onclick='PrivateMetafieldCheck()'>Add Private Metafield</button>
+    <button onclick='GetPrivateMetafields()'>Get Private Metafield</button>
 
     <div id='prod'>
     </div>
 
+    <div id='inputform'>
+        <form id="form1" action="" onsubmit="savePrivateMetafields(event)">
+            <b>TaxCode:</b> <input type="text" name="taxcode" id="taxcode">
+            <b>GTIN: </b><input type="text" name="gtin" id="gtin">
+            <b>Category: </b><input type="text" name="category" id="category">
+            <b>SubCategory: </b><input type="text" name="subcategory" id="subcategory">
+            <b>Clothingsize: </b><input type="text" name="Clothingsize" id="clothingsize">
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
     <script>
 
-       var shop = '{{shop}}'
+        var shop = '{{shop}}'
+        document.getElementById("inputform").style.display = "None";
 
         //Display data on UI
         function displayDataUI(productListingsArr) {
@@ -40,7 +54,7 @@
             console.log('Get Product Button clicked')
             //Commented for WalmartApp Playground
             //fetch('https://shopifywalbackend.herokuapp.com/backend/product_listings')
-            const url = 'https://shopifywalbackend.herokuapp.com/backend/product_listings?shop='+shop
+            const url = 'https://shopifywalbackend.herokuapp.com/backend/product_listings?shop=' + shop
             fetch(url)
                 .then(response => {
                     if (!response.ok) { throw response }
@@ -64,16 +78,16 @@
         function addMetaFields() {
             console.log('Add Mis-Man Button clicked')
             //Commented for WalmartApp Playground
-           // const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
-             const url = 'https://'+shop+'.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
+            // const url = 'https://test-wal-mp.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
+            const url = 'https://' + shop + '.myshopify.com/admin/bulk?resource_name=Product&query=&published_status=walmart_dev-1%3Avisible&edit=variants.sku,metafields.walmart.taxcode:string,metafields.walmart.idtype:string,metafields.walmart.gtin:number,metafields.walmart.category:select,metafields.walmart.subcategory:string&metafield_options[metafields.walmart.category][1]=clothing&metafield_options[metafields.walmart.category][2]=Electronics&metafield_options[metafields.walmart.category][3]=Tires'
             window.open(url, '_blank');
         }
 
         function registerWebhook() {
 
             //Commented for WalmartApp Playground
-           // fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate')
-           fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate?shop='+shop)
+            // fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate')
+            fetch('https://shopifywalbackend.herokuapp.com/backend/registerwebhook/productupdate?shop=' + shop)
                 .then(response => {
                     if (!response.ok) { throw response }
                     return response.json() //Only if there is no error
@@ -83,8 +97,8 @@
                     //Break the JSON to read the product_listings object  and send the array
                     console.log('Data Payload response to webhook from backend' + JSON.stringify(data))
 
-                     var divContainer = document.getElementById('prod')
-                     divContainer.innerHTML = JSON.stringify(data)
+                    var divContainer = document.getElementById('prod')
+                    divContainer.innerHTML = JSON.stringify(data)
 
                 })
 
@@ -94,6 +108,74 @@
                     displayError(err)
                 })
         }
+
+
+        function PrivateMetafieldCheck() {
+            console.log('Add Private Metafield Button clicked')
+            var x = document.getElementById("inputform");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        function savePrivateMetafields(event) {
+            event.preventDefault();
+            console.log('Save private Metafield Button clicked')
+            var taxcode = document.getElementById("taxcode").value;
+            var gtin = document.getElementById("gtin").value;
+            var category = document.getElementById("category").value;
+            var subcategory = document.getElementById("subcategory").value;
+            var clothingsize = document.getElementById("clothingsize").value;
+
+
+            const url = 'https://shopifywalbackend.herokuapp.com/backend/saveprivatemeta?taxcode='+taxcode+'&gtin='+gtin+'&category='+category+'&subcategory='+subcategory+'&clothingsize='+clothingsize
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) { throw response }
+                    return response.json() //Only if there is no error
+                })
+                .then(data => {
+                    console.log('Received from our backend:')
+                    //Break the JSON to read 
+                    console.log('Data Payload response to webhook from backend' + JSON.stringify(data))
+                })
+
+                .catch(err => {
+                    console.log('Error API:')
+                    console.log(err)
+                    displayError(err)
+                })
+        }
+
+
+        function GetPrivateMetafields() {
+            console.log('Get Private Metafield button clicked')
+            const url = 'https://shopifywalbackend.herokuapp.com/backend/getprivatemeta'
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) { throw response }
+                    return response.json() //Only if there is no error
+                })
+                .then(data => {
+                    console.log('Received from our backend:')
+                    //Break the JSON to read 
+                    console.log('Data Payload response to webhook from backend' + JSON.stringify(data))
+                    document.getElementById('prod').innerHTML = JSON.stringify(data)
+                })
+
+                .catch(err => {
+                    console.log('Error API:')
+                    console.log(err)
+                    displayError(err)
+                })
+
+
+        }
+
     </script>
 
 </body>
