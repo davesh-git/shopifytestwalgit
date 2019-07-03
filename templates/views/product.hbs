@@ -130,7 +130,7 @@
             var clothingsize = document.getElementById("clothingsize").value;
 
 
-            const url = 'https://shopifywalbackend.herokuapp.com/backend/saveprivatemeta?taxcode='+taxcode+'&gtin='+gtin+'&category='+category+'&subcategory='+subcategory+'&clothingsize='+clothingsize
+            const url = 'https://shopifywalbackend.herokuapp.com/backend/saveprivatemeta?taxcode='+taxcode+'&gtin='+gtin+'&category='+category+'&subcategory='+subcategory+'&clothingsize='+clothingsize+'&shop='+shop
 
             fetch(url)
                 .then(response => {
