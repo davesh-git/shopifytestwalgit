@@ -132,7 +132,7 @@
 
             const url = 'https://shopifywalbackend.herokuapp.com/backend/saveprivatemeta?taxcode='+taxcode+'&gtin='+gtin+'&category='+category+'&subcategory='+subcategory+'&clothingsize='+clothingsize+'&shop='+shop
 
-            console.log('Shop is: '+shop')
+            console.log('Shop is: '+shop)
             fetch(url)
                 .then(response => {
                     if (!response.ok) { throw response }
