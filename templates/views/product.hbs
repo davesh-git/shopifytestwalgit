@@ -154,7 +154,10 @@
 
         function GetPrivateMetafields() {
             console.log('Get Private Metafield button clicked')
-            const url = 'https://shopifywalbackend.herokuapp.com/backend/getprivatemeta'
+            console.log('Shop is:- '+shop)
+           
+
+            const url = 'https://shopifywalbackend.herokuapp.com/backend/getprivatemeta?shop='+shop
 
             fetch(url)
                 .then(response => {
@@ -164,7 +167,7 @@
                 .then(data => {
                     console.log('Received from our backend:')
                     //Break the JSON to read 
-                    console.log('Data Payload response to webhook from backend' + JSON.stringify(data))
+                    console.log('Data Payload response  from backend' + JSON.stringify(data))
                     document.getElementById('prod').innerHTML = JSON.stringify(data)
                 })
 
